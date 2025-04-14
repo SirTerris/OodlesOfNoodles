@@ -186,26 +186,59 @@ function generateGenes(tier) {
   };
 }
 
+
 function getPhenotype(genes) {
-  if (genes.le[0] === 'le' && genes.le[1] === 'le' && genes.a[0] === 'a' && genes.a[1] === 'a') return "Incompatible Genes";
-  let morphs = [];
-  if (genes.An[0] === 'An' && genes.An[1] === 'An') morphs.push('Superconda');
-  else if (genes.An.includes('An')) morphs.push('Anaconda');
-  if (genes.Arc[0] === 'Arc' && genes.Arc[1] === 'Arc') morphs.unshift('Super Arctic');
-  else if (genes.Arc.includes('Arc')) morphs.unshift('Arctic');
-  if (genes.a[0] === 'a' && genes.a[1] === 'a') morphs.push('Albino');
-  if (genes.x[0] === 'x' && genes.x[1] === 'x') morphs.push('Axanthic');
-  if (genes.t[0] === 't' && genes.t[1] === 't') morphs.push('Toffee Belly');
-  if (genes.s[0] === 's' && genes.s[1] === 's') morphs.push('Sable');
-  if (genes.l[0] === 'l' && genes.l[1] === 'l') morphs.push('Lavender');
-  if (genes.h[0] === 'h' && genes.h[1] === 'h') morphs.push('Hypo');
-  if (genes.le[0] === 'le' && genes.le[1] === 'le') morphs.push('Leucistic');
-  if (genes.j.includes('j')) morphs.push('Jaguar');
-  if (genes.coralExp >= 8) morphs.unshift('Coral');
-  if (genes.redExp >= 8) morphs.unshift('Extreme Red');
-  if (genes.bandingExp >= 8) morphs.unshift('Banded');
-  return morphs.length ? morphs.join(' ') : 'Normal';
+  let visible = [];
+
+  if (genes.conda[0] === 'conda' && genes.conda[1] === 'conda') {
+    visible.push('Super Anaconda');
+  } else if (genes.conda.includes('conda')) {
+    visible.push('Anaconda');
+  }
+
+  if (genes.arctic[0] === 'arctic' && genes.arctic[1] === 'arctic') {
+    visible.push('Super Arctic');
+  } else if (genes.arctic.includes('arctic')) {
+    visible.push('Arctic');
+  }
+
+  if (genes.albino[0] === 'albino' && genes.albino[1] === 'albino') {
+    visible.push('Albino');
+  }
+
+  if (genes.toffee[0] === 'toffee' && genes.toffee[1] === 'toffee') {
+    visible.push('Toffee');
+  }
+
+  if (genes.hypo[0] === 'hypo' && genes.hypo[1] === 'hypo') {
+    visible.push('Hypo');
+  }
+
+  if (genes.sable[0] === 'sable' && genes.sable[1] === 'sable') {
+    visible.push('Sable');
+  }
+
+  if (genes.lavender[0] === 'lavender' && genes.lavender[1] === 'lavender') {
+    visible.push('Lavender');
+  }
+
+  if (genes.axanthic[0] === 'axanthic' && genes.axanthic[1] === 'axanthic') {
+    visible.push('Axanthic');
+  }
+
+  if (genes.leucistic[0] === 'leucistic' && genes.leucistic[1] === 'leucistic') {
+    visible.push('Leucistic');
+  }
+
+  // Polygenic traits
+  if (genes.redExp >= 6) visible.push('Extreme Red');
+  if (genes.coralExp >= 6) visible.push('Coral');
+  if (genes.greenExp >= 6) visible.push('Green Phase');
+
+  if (visible.length === 0) return 'Normal';
+  return visible.join(' ');
 }
+
 
 function buyEgg(tier) {
   const costs = { Wildtype: 10, Designer: 100, Rare: 500 };
