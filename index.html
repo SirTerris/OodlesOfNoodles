@@ -281,8 +281,8 @@ function updateUI() {
     const cm = Math.floor(remaining / 60000);
     const cs = Math.floor((remaining % 60000) / 1000);
     const morphCount = s.phenotype === "Normal" ? 0 : s.phenotype.split(" ").length;
-    const shopPrice = morphCount === 0 ? 10 : Math.pow(5, morphCount) * 100;
-    const sellPrice = Math.floor(shopPrice / 2);
+    const basePrice = morphCount === 0 ? 10 : Math.pow(5, morphCount) * 100;
+    const sellPrice = morphCount === 0 ? 5 : Math.floor((basePrice + (s.quality * 25)) / 2);
 
     return "<div class='snake'>" +
            "<button onclick='renameSnake(" + i + ")'>Rename</button> " +
