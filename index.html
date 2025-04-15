@@ -6,6 +6,7 @@
 <meta charset="utf-8"/>
 <title>Oodles of Noodles</title>
 
+
 <style>
   body {
     background: #f8f9f6;
@@ -14,80 +15,76 @@
     margin: 20px;
   }
 
+  h1 {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
   .tabs {
     text-align: center;
     margin-bottom: 20px;
   }
 
   .tabs button {
-    margin: 0 4px;
+    margin: 0 6px;
     padding: 10px 20px;
-    font-size: 16px;
-    border: none;
+    font-size: 15px;
+    font-weight: bold;
     background: #88c440;
     color: white;
+    border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
   }
 
   .tabs button:hover {
-    background: #7ab936;
+    background: #7ab436;
   }
 
-  button.active {
+  .tabs button.active {
     background: #1e1e1e;
-    color: white;
   }
 
-  
-.snake {
-  background: #ffffff;
-  padding: 6px 10px;
-  margin: 4px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 13px;
-  line-height: 1.4;
-}
-.snake button {
-  margin: 2px 4px 0 0;
-  padding: 4px 6px;
-  font-size: 12px;
-}
+  .snake {
+    background: #ffffff;
+    padding: 10px 14px;
+    margin: 8px 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    font-size: 13px;
+  }
 
-
-  button {
-    background: #e0e0e0;
+  .snake button {
+    background: #ddd;
     border: none;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 6px;
+    margin: 4px 4px 0 0;
+    font-size: 12px;
     cursor: pointer;
-    font-weight: 500;
-    margin-top: 6px;
   }
 
-  button:hover {
-    background: #cccccc;
+  .snake button:hover {
+    background: #ccc;
   }
 
   #resetButton {
-    background: #933 !important;
+    background: #933;
     color: white;
   }
 
   .tab {
     display: none;
   }
+
   .tab.active {
     display: block;
   }
-
-.snake button {
-  display: inline-block;
-  margin: 4px 4px 0 0;
-}
 </style>
+
 
 </head>
 <body>
