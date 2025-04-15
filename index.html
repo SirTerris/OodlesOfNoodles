@@ -1,473 +1,106 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Merienda&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
-  <title>Oodles of Noodles – Hognose Breeder</title>
-  
-
+<meta charset="utf-8"/>
+<title>Oodles of Noodles</title>
 
 <style>
   body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #e6f4ec;
-    color: #1e3528;
-    margin: 0;
-    padding: 20px;
-  }
-
-  h1 {
-  text-align: center;
-  margin-bottom: 10px;
-  color: #245c3d;
-  font-size: 36px;
-  font-family: 'Playfair Display', serif;
-}
-
-  #coinDisplay {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    color: #245c3d;
+    background: #f8f9f6;
+    font-family: 'Segoe UI', 'Inter', sans-serif;
+    color: #1e1e1e;
+    margin: 20px;
   }
 
   .tabs {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
 
   .tabs button {
-    background: #4d9c6f;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 24px;
-    margin: 0 6px;
+    margin: 0 4px;
+    padding: 10px 20px;
     font-size: 16px;
-    font-weight: 500;
+    border: none;
+    background: #88c440;
+    color: white;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.1s;
+    font-weight: bold;
   }
 
   .tabs button:hover {
-    background: #3b7f58;
-    transform: scale(1.05);
+    background: #7ab936;
   }
 
-  .section {
-    display: none;
-    max-width: 960px;
-    margin: 0 auto;
+  button.active {
+    background: #1e1e1e;
+    color: white;
+  }
+
+  .snake {
     background: #ffffff;
-    padding: 24px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 14px;
+    margin: 10px 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
   }
 
-  .visible {
+  button {
+    background: #e0e0e0;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  button:hover {
+    background: #cccccc;
+  }
+
+  #resetButton {
+    background: #933 !important;
+    color: white;
+  }
+
+  .tab {
+    display: none;
+  }
+  .tab.active {
     display: block;
   }
 
-  .snake, .egg {
-    background: #f0fdf4;
-    border: 1px solid #b6dec4;
-    border-left: 8px solid #66bb88;
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    transition: background 0.2s ease;
-  }
-
-  .snake:hover, .egg:hover {
-    background: #e6f9ed;
-  }
-
-  .snake button, .egg button {
-    margin: 6px;
-    padding: 7px 12px;
-    font-size: 14px;
-    border: none;
-    border-radius: 6px;
-    background: #4d9c6f;
-    color: white;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-
-  .snake button:hover, .egg button:hover {
-    background: #3b7f58;
-  }
-
-  select {
-    padding: 6px;
-    font-size: 15px;
-    margin: 8px 10px 10px 0;
-    border-radius: 6px;
-    border: 1px solid #aaa;
-  }
-
-  #coinDisplay {
-    margin-top: 5px;
-    margin-bottom: 25px;
+  h1 {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #1e1e1e;
+    margin-bottom: 30px;
   }
 </style>
 
-
-
 </head>
 <body>
-  <h1>Oodles of Noodles – Hognose Breeder</h1>
-  <div id="coinDisplay" style="text-align:center; font-weight:bold; margin: 10px;">Coins: 100</div>
-  <div class="tabs">
-    <button onclick="showTab('sales')">Sales</button>
-    <button onclick="showTab('hatchery')">Hatchery</button>
-    <button onclick="showTab('snakes')">My Snakes</button>
-    <button onclick="showTab('breeding')">Breeding</button>
-  </div>
-  <div style="text-align:center; margin: 10px;"><button onclick="resetGame()">Reset Game</button></div>
-
-  <div id="hatchery" class="section visible">
-    <h2>Incubation</h2><div id="eggList"></div>
-  </div>
-
-  
-  <div id="sales" class="section">
-    <h2>Snakes for Sale</h2>
-    <button onclick="generateShopSnakes()">Refresh Stock</button>
-    <div id="shopList"></div>
-  </div>
-
-  <div id="snakes" class="section">
-    <h2>My Hognoses</h2>
-    <div id="snakeList"></div>
-  </div>
-
-  <div id="breeding" class="section">
-    <h2>Breed Hognoses</h2>
-    <label>Female:</label><select id="femaleSelect"></select>
-    <label>Male:</label><select id="maleSelect"></select>
-    <button onclick="breed()">Breed</button>
-  </div>
-
-<script>
-let coins = 100;
-let eggs = [];
-let snakes = [];
-const hatchDelay = 300000;
-
-function showTab(tabName) {
-  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('visible'));
-  document.getElementById(tabName).classList.add('visible');
-}
-
-function getRandomGender() {
-  return Math.random() < 0.5 ? 'Male' : 'Female';
-}
-
-function generateGenes(tier) {
-  const isWild = tier === 'Wildtype';
-  function randAlleles(gene) {
-    return isWild ? ['+', '+'] : [Math.random() < 0.5 ? gene : '+', Math.random() < 0.5 ? gene : '+'];
-  }
-  return {
-    An: randAlleles('An'), Arc: randAlleles('Arc'), a: randAlleles('a'),
-    x: randAlleles('x'), t: randAlleles('t'), s: randAlleles('s'),
-    l: randAlleles('l'), h: randAlleles('h'), le: randAlleles('le'),
-    j: randAlleles('j'),
-    coralExp: isWild ? 0 : Math.floor(Math.random() * 11),
-    redExp: isWild ? 0 : Math.floor(Math.random() * 11),
-    bandingExp: isWild ? 0 : Math.floor(Math.random() * 11)
-  };
-}
-
-
-function getPhenotype(genes) {
-  let visible = [];
-
-  if (genes.conda[0] === 'conda' && genes.conda[1] === 'conda') {
-    visible.push('Super Anaconda');
-  } else if (genes.conda.includes('conda')) {
-    visible.push('Anaconda');
-  }
-
-  if (genes.arctic[0] === 'arctic' && genes.arctic[1] === 'arctic') {
-    visible.push('Super Arctic');
-  } else if (genes.arctic.includes('arctic')) {
-    visible.push('Arctic');
-  }
-
-  if (genes.albino[0] === 'albino' && genes.albino[1] === 'albino') {
-    visible.push('Albino');
-  }
-
-  if (genes.toffee[0] === 'toffee' && genes.toffee[1] === 'toffee') {
-    visible.push('Toffee');
-  }
-
-  if (genes.hypo[0] === 'hypo' && genes.hypo[1] === 'hypo') {
-    visible.push('Hypo');
-  }
-
-  if (genes.sable[0] === 'sable' && genes.sable[1] === 'sable') {
-    visible.push('Sable');
-  }
-
-  if (genes.lavender[0] === 'lavender' && genes.lavender[1] === 'lavender') {
-    visible.push('Lavender');
-  }
-
-  if (genes.axanthic[0] === 'axanthic' && genes.axanthic[1] === 'axanthic') {
-    visible.push('Axanthic');
-  }
-
-  if (genes.leucistic[0] === 'leucistic' && genes.leucistic[1] === 'leucistic') {
-    visible.push('Leucistic');
-  }
-
-  // Polygenic traits
-  if (genes.redExp >= 6) visible.push('Extreme Red');
-  if (genes.coralExp >= 6) visible.push('Coral');
-  if (genes.greenExp >= 6) visible.push('Green Phase');
-
-  if (visible.length === 0) return 'Normal';
-  return visible.join(' ');
-}
-
-
-function buyEgg(tier) {
-  const costs = { Wildtype: 10, Designer: 100, Rare: 500 };
-  if (coins >= costs[tier]) {
-    coins -= costs[tier];
-    const genes = generateGenes(tier);
-    const created = Date.now();
-    eggs.push({ tier, genes, created });
-    updateUI();
-  }
-}
-
-function hatchEgg(index) {
-  const egg = eggs[index];
-  const gender = getRandomGender();
-  const phenotype = getPhenotype(egg.genes);
-  const quality = Math.floor(Math.random() * 5) + 1;
-  snakes.push({ name: 'Unnamed', gender, phenotype, genes: egg.genes, quality, tested: false, lastBred: 0 });
-  eggs.splice(index, 1);
-  updateUI();
-    saveGame();
-}
-
-function updateUI() {
-  document.getElementById("coinDisplay").innerText = "Coins: " + coins;
-  const now = Date.now();
-  document.getElementById('eggList').innerHTML = eggs.map((e, i) => {
-    const remaining = Math.max(0, e.created + hatchDelay - now);
-    const mins = Math.floor(remaining / 60000);
-    const secs = Math.floor((remaining % 60000) / 1000);
-    let timerText = remaining > 0 ? mins + 'm ' + secs + 's' : "<button onclick='hatchEgg(" + i + ")'>Hatch</button>";
-    return "<div class='snake'>" + e.tier + " - " + timerText + "</div>";
-  }).join('');
-
-  
-
-  document.getElementById('snakeList').innerHTML = snakes.map((s, i) => {
-    const cooldown = s.gender === 'Female' && s.lastBred && (Date.now() - s.lastBred < 300000);
-    const remaining = cooldown ? 300000 - (Date.now() - s.lastBred) : 0;
-    const cm = Math.floor(remaining / 60000);
-    const cs = Math.floor((remaining % 60000) / 1000);
-    const morphCount = s.phenotype === "Normal" ? 0 : s.phenotype.split(" ").length;
-    const basePrice = morphCount === 0 ? 10 : Math.pow(5, morphCount) * 100;
-    const sellPrice = morphCount === 0 ? 5 : Math.floor((basePrice + (s.quality * 25)) / 2);
-
-    return "<div class='snake'>" +
-           "<button onclick='renameSnake(" + i + ")'>Rename</button> " +
-           "Name: " + s.name +
-           " | Sex: " + s.gender +
-           " | Morph: " + s.phenotype +
-           " | Quality: " + s.quality +
-           (cooldown ? " | Cooldown: " + cm + "m " + cs + "s" : "") +
-           " <button onclick='testGenes(" + i + ")'>Gene Test</button> " +
-           (s.tested ? "<br>" + JSON.stringify(s.genes) : "") +
-           " <button onclick='sellSnake(" + i + ", " + sellPrice + ")'>Sell (" + sellPrice + " coins)</button>" +
-           "</div>";
-  }).join('');
-
-
-  // Update Breeding Dropdowns
-  const femaleDropdown = document.getElementById('femaleSelect');
-  const maleDropdown = document.getElementById('maleSelect');
-  femaleDropdown.innerHTML = '';
-  maleDropdown.innerHTML = '';
-  snakes.forEach((s, i) => {
-    const isCooldown = s.gender === 'Female' && s.lastBred && (Date.now() - s.lastBred < 300000);
-    if (s.gender === 'Female' && isCooldown) return;
-    const option = document.createElement('option');
-    option.value = i;
-    option.text = s.name + " (" + s.phenotype + ")";
-    if (s.gender === 'Female') femaleDropdown.appendChild(option);
-    if (s.gender === 'Male') maleDropdown.appendChild(option);
-  });
-
-
-}
-
-
-function breed() {
-  const f = document.getElementById('femaleSelect').value;
-  const m = document.getElementById('maleSelect').value;
-  if (f === m || !f || !m) return;
-  const mom = snakes[f], dad = snakes[m];
-  if (Date.now() - mom.lastBred < 300000) return;
-
-  const eggCount = Math.floor(Math.random() * 12) + 1;
-  console.log("Breeding produced", eggCount, "eggs.");
-
-  for (let i = 0; i < eggCount; i++) {
-    const babyGenes = {};
-    for (const gene in mom.genes) {
-      if (['coralExp', 'redExp', 'bandingExp'].includes(gene)) {
-        babyGenes[gene] = Math.min(10, Math.max(0, Math.round(
-          (mom.genes[gene] + dad.genes[gene]) / 2 + (Math.random() * 4 - 2)
-        )));
-      } else {
-        babyGenes[gene] = [
-          mom.genes[gene][Math.floor(Math.random() * 2)],
-          dad.genes[gene][Math.floor(Math.random() * 2)]
-        ];
-      }
-    }
-    eggs.push({ tier: mom.name + ' x ' + dad.name, genes: babyGenes, created: Date.now() });
-  }
-
-  mom.lastBred = Date.now();
-  updateUI();
-    saveGame();
-}
-
-
-setInterval(updateUI, 1000);
-
-function resetGame() {
-  if (confirm("Are you sure you want to reset the game?")) {
-    coins = 100;
-    eggs = [];
-    snakes = [];
-    updateUI();
-  }
-}
-
-
-let shopSnakes = [];
-
-
-function generateShopSnakes() {
-  const morphs = ['Anaconda', 'Albino', 'Axanthic', 'Toffee Belly', 'Sable', 'Lavender', 'Hypo', 'Leucistic', 'Jaguar', 'Arctic'];
-  shopSnakes = [
-    { gender: 'Male', phenotype: 'Normal', quality: 1, price: 10 },
-    { gender: 'Female', phenotype: 'Normal', quality: 1, price: 10 }
-  ];
-  const randomCount = Math.floor(Math.random() * 3) + 4;
-  for (let i = 0; i < randomCount; i++) {
-    const morphCount = Math.floor(Math.random() * 3) + 1;
-    let selected = [];
-    while (selected.length < morphCount) {
-      const m = morphs[Math.floor(Math.random() * morphs.length)];
-      if (!selected.includes(m)) selected.push(m);
-    }
-    const phenotype = selected.join(" ");
-    const morphNum = selected.length;
-    const price = Math.floor(Math.pow(5, morphNum) * 100);
-    shopSnakes.push({
-      gender: getRandomGender(),
-      phenotype: phenotype,
-      quality: 1,
-      price: price
-    });
-  }
-  showShop();
-}
-
-
-function showShop() {
-  const container = document.getElementById('shopList');
-  container.innerHTML = shopSnakes.map((s, i) =>
-    "<div class='snake'>" +
-    "Sex: " + s.gender + " | Morph: " + s.phenotype + " | Quality: " + s.quality + " | Price: " + s.price +
-    " <button onclick='buyShopSnake(" + i + ")'>Buy</button></div>"
-  ).join('');
-}
-
-function buyShopSnake(index) {
-  const s = shopSnakes[index];
-  if (coins >= s.price) {
-    coins -= s.price;
-    snakes.push({
-      name: 'Unnamed',
-      gender: s.gender,
-      phenotype: s.phenotype,
-      genes: generateGenes('Wildtype'),
-      quality: s.quality,
-      tested: false,
-      lastBred: 0
-    });
-    updateUI();
-    saveGame();
-    showShop();
-  }
-}
-
-
-function sellSnake(index, price) {
-  coins += price;
-  snakes.splice(index, 1);
-  updateUI();
-    saveGame();
-}
-
-
-function renameSnake(index) {
-  const newName = prompt("Enter a new name for this snake:", snakes[index].name);
-  if (newName !== null && newName.trim() !== "") {
-    snakes[index].name = newName.trim();
-    updateUI();
-    saveGame();
-  }
-}
-
-
-// Save game state
-function saveGame() {
-  const gameState = {
-    coins,
-    snakes,
-    eggs
-  };
-  localStorage.setItem('noodlesSave', JSON.stringify(gameState));
-}
-
-// Load game state
-function loadGame() {
-  const data = localStorage.getItem('noodlesSave');
-  if (data) {
-    const state = JSON.parse(data);
-    coins = state.coins || 0;
-    snakes = state.snakes || [];
-    eggs = state.eggs || [];
-  }
-}
-
-// Call load on startup
-loadGame();
-updateUI();
-
-// Save before closing tab
-window.addEventListener('beforeunload', saveGame);
-
-</script>
-</body>
+<h1>Oodles of Noodles</h1>
+<div class="tabs">
+  <button onclick="showTab('shop')">Shop</button>
+  <button onclick="showTab('snakes')">My Snakes</button>
+<button onclick="showTab('hatchery')">Hatchery</button><button onclick="showTab('breeding')">Breeding</button>
+  <button onclick="resetGame()" style="background: #933;">Reset Game</button></div>
+<p><strong>Coins:</strong> <span id="coinDisplay">100</span></p>
+<div class="tab active" id="shop">
+<h2>Snake Shop</h2><button onclick="generateShopSnakes()">Refresh Shop</button>
+<div id="shopList"></div>
+</div>
+<div class="tab" id="snakes">
+<h2>My Snakes</h2>
+<div id="snakeList"></div>
+</div>
+<script src="game.js"></script>
+<div class="tab" id="hatchery"><h2>Hatchery</h2><div id="eggList"></div></div><div class="tab" id="breeding"><h2>Breeding</h2><label>Male:</label><select id="maleSelect"></select><br/><label>Female:</label><select id="femaleSelect"></select><br/><button onclick="breedSnakes()">Breed</button></div></body>
 </html>
