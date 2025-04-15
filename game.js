@@ -280,8 +280,8 @@ function updateUI() {
         Object.entries(snake.genes).map(([g, v]) =>
           Array.isArray(v) ? g + ": " + v.join("/") : g + ": " + v
         ).join(", ")
-      }<br>` : `<button onclick="geneTestSnake(${i})">Gene Test (1000 coins)</button><br>`}
-      <button onclick="renameSnake(${i})">Rename</button><br>
+      }<br>` : `<button onclick="geneTestSnake(${i})">Gene Test (1000 coins)</button> `}
+      <button onclick="renameSnake(${i})">Rename</button> 
       
       ${snake.sex === "Female" && cooldownRemaining > 0 ? `<strong>Cooldown:</strong> ${cooldownRemaining}s<br>` : ""}
       <button onclick="sellSnake(${i})">Sell for ${Math.floor(priceSnake(snake)/2)} coins</button>
